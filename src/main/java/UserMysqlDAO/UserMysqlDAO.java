@@ -287,7 +287,6 @@ public class UserMysqlDAO implements IDAOUser {
 	
 	}
 
-	@Override
 	public User updateUser1(User userNew) {
 		Connection connection = getConnectionMySQL();
 		User result = null;
