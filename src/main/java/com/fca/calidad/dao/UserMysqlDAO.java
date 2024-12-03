@@ -1,4 +1,4 @@
-package UserMysqlDAO;
+package com.fca.calidad.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -8,7 +8,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fca.calidad.dao.IDAOUser;
 import com.fca.calidad.model.User.User;
 
 

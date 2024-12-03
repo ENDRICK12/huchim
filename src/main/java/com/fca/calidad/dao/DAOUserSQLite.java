@@ -324,6 +324,12 @@ public class DAOUserSQLite implements IDAOUser {
 		return null;
 	}
 
+	@Override
+	public int save1(User user) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 	
 
 	
