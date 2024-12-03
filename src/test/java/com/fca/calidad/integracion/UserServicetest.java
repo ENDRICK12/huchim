@@ -2,7 +2,7 @@
 
 
 	package com.fca.calidad.integracion;
-
+//
 	import java.io.FileInputStream;
 	import org.dbunit.DBTestCase;
 	import org.dbunit.PropertiesBasedJdbcDatabaseTester;

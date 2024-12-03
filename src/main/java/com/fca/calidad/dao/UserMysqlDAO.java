@@ -28,7 +28,7 @@ public class UserMysqlDAO implements IDAOUser {
 		}
 		return con;
 	}
-
+//
 	@Override
 	public User findByUserName(String name) {
 		Connection connection = getConnectionMySQL();
