@@ -94,15 +94,11 @@ class UserServiceTest {
 
 	@Test
 	public void buscarIdTest () {
-		// INICIALIZACION
 		User resultadoEsperado = new User("name" , "email" , "password");
 		resultadoEsperado.setId(1);
 		when(dao.findById(1)).thenReturn(resultadoEsperado);
-		
-		  // EJERCICIO
         User resultado = servicio.findUserById(1);
- 
-        // VERIFICAR
+
         assertThat(resultado.getId(), is(resultadoEsperado.getId()));
         assertThat(resultado.getName(), is(resultadoEsperado.getName()));
         assertThat(resultado.getEmail(), is(resultadoEsperado.getEmail()));
