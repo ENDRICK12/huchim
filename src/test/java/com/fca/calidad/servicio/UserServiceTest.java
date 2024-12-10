@@ -47,7 +47,7 @@ class UserServiceTest {
 	}
 
 	@Test
-	void guardarUsuarioTest() {
+	void GuardarUsuario() {
 		  User user = new User("user", "existinguser@example.com", "user");
 		    db.put(1, user);
 		String nombre = "newUser";
@@ -81,7 +81,7 @@ class UserServiceTest {
 	
 	
 	@Test
-	void findUserByEmailTest() {
+	void Buscarporemail() {
 
 	    String email = "test@example.com";
 	    User expectedUser = new User("Test User", email, "testPassword");
@@ -94,7 +94,7 @@ class UserServiceTest {
 
 	
 		@Test
-		void actualizarDataTest() {
+		void Actualizar() {
 			User oldUser = new User("oldUser", "oldEmail", "oldPassword");
 			oldUser.setId(1);
 			db.put(1, oldUser);
@@ -120,7 +120,7 @@ class UserServiceTest {
 		
 		
 		@Test
-		void eliminarUserTest() {
+		void EliminarUser() {
 		    User userToDelete = new User("deleteUser", "deleteEmail", "deletePassword");
 		    userToDelete.setId(1);
 		    db.put(1, userToDelete);
@@ -140,7 +140,30 @@ class UserServiceTest {
 		    assertNull(db.get(1));
 		    System.out.println("Base de datos después de la eliminación: " + db);
 		}
-		
+		@Test
+		void BuscarTodos() {
+		    
+		    for (int i = 1; i <= 5; i++) {
+		        User user = new User("User" + i, "user" + i + "@example.com", "password" + i);
+		        user.setId(i);
+		        db.put(user.getId(), user);
+		    }
+
+		    when(dao.findAll()).thenReturn(new ArrayList<>(db.values()));
+
+		    List<User> result = servicio.findAllUsers();
+		   
+		    assertThat(result.size(), is(5));
+
+		    for (User user : result) {
+		        assertThat(db.containsKey(user.getId()), is(true));
+		        User userInDB = db.get(user.getId());
+		        assertThat(user.getName(), is(userInDB.getName()));
+		        assertThat(user.getEmail(), is(userInDB.getEmail()));
+		        assertThat(user.getPassword(), is(userInDB.getPassword()));
+		    }
+		}
+
 		
 	}
 	 	
