@@ -56,12 +56,12 @@ public class Test_Crud_Agregar {
 	  }
   
   @Test
-  public void Borrar () throws Exception {
+  public void Eliminar () throws Exception {
 	  driver.get("https://mern-crud-mpfr.onrender.com/");
 	    driver.findElement(By.xpath("//div[@id='root']/div/div[2]/button")).click();
 	    driver.findElement(By.name("name")).click();
 	    driver.findElement(By.name("name")).clear();
-	    driver.findElement(By.name("name")).sendKeys("borrar");
+	    driver.findElement(By.name("name")).sendKeys("eliminar");
 	    driver.findElement(By.name("email")).click();
 	    driver.findElement(By.name("email")).clear();
 	    driver.findElement(By.name("email")).sendKeys("eliminar@mail.com");
@@ -78,7 +78,7 @@ public class Test_Crud_Agregar {
 	    driver.findElement(By.xpath("/html/body/div[3]/div/div[3]/button[1]")).click();   
 	    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
 	    WebElement confirmationMessage = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div[2]/div/div[2]/table/tbody/tr[1]/td[1]")));
-	    assertNotEquals("Borrar", confirmationMessage.getText());
+	    assertNotEquals("eliminar", confirmationMessage.getText());
   }
   
   @Test
