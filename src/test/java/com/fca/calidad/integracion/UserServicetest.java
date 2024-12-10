@@ -23,7 +23,7 @@
 
 
 
-	class UserServiceTest<IDatabaseConnection> extends DBTestCase {
+	class UserServiceTest extends DBTestCase {
 		private DAOUserSQLite dao;
 		private UserService userService;
 
@@ -36,11 +36,10 @@
 
 		@BeforeEach
 		public void setUp() {
-			//crear instancia
+			
 			dao= new DAOUserSQLite();
 			userService =new UserService(dao);
 			
-			//inicializar la base
 			org.dbunit.database.IDatabaseConnection connection;
 			try {
 				connection = getConnection();
@@ -59,10 +58,10 @@
 			@Test
 			void createUserTest() {
 				
-				//ejercicio de codigo
+				
+				User usuario = userService.createUser("nombre", "email", "password");
 				
 				
-				//Assertion
 				int resultadoEsperado = 1;
 				
 				org.dbunit.database.IDatabaseConnection connection;
@@ -85,10 +84,7 @@
 					String passwordReal = (String) tablaReal.getValue(0, "password");
 					String passwordEsperado = "password";
 					assertEquals(passwordReal, passwordEsperado);
-					
-					/*String idReal = (String) tablaReal.getValue(0, "id");
-					String idEsperado = "id";
-					assertEquals(idReal, idEsperado);*/
+				
 					
 					int resultadoAcutual = tablaReal.getRowCount();
 					assertEquals(resultadoEsperado, resultadoAcutual );
