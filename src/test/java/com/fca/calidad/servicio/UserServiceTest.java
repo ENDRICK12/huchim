@@ -47,7 +47,7 @@ class UserServiceTest {
 	}
 
 	@Test
-	void GuardarUsuario() {
+	void guardarUsuario() {
 		  User user = new User("user", "existinguser@example.com", "user");
 		    db.put(1, user);
 		String nombre = "newUser";
@@ -81,7 +81,7 @@ class UserServiceTest {
 	
 	
 	@Test
-	void Buscarporemail() {
+	void buscarporemail() {
 
 	    String email = "test@example.com";
 	    User expectedUser = new User("Test User", email, "testPassword");
@@ -130,7 +130,7 @@ class UserServiceTest {
 		
 		
 		@Test
-		void EliminarUser() {
+		void eliminarUser() {
 		    User userToDelete = new User("deleteUser", "deleteEmail", "deletePassword");
 		    userToDelete.setId(1);
 		    db.put(1, userToDelete);
@@ -151,7 +151,7 @@ class UserServiceTest {
 		    System.out.println("Base de datos después de la eliminación: " + db);
 		}
 		@Test
-		void BuscarTodos() {
+		void buscarTodos() {
 		    
 		    for (int i = 1; i <= 5; i++) {
 		        User user = new User("User" + i, "user" + i + "@example.com", "password" + i);

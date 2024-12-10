@@ -30,7 +30,7 @@ public class Test_Crud_Agregar {
   }
 
   @Test
-  public void Agregar() throws Exception {
+  public void agregar() throws Exception {
 	    driver.get("https://mern-crud-mpfr.onrender.com/");
 	    driver.findElement(By.xpath("/html/body/div[2]/div/div[2]/button")).click();
 	    driver.findElement(By.name("name")).click();
@@ -56,7 +56,7 @@ public class Test_Crud_Agregar {
 	  }
   
   @Test
-  public void Eliminar () throws Exception {
+  public void eliminar () throws Exception {
 	  driver.get("https://mern-crud-mpfr.onrender.com/");
 	    driver.findElement(By.xpath("//div[@id='root']/div/div[2]/button")).click();
 	    driver.findElement(By.name("name")).click();
@@ -82,7 +82,7 @@ public class Test_Crud_Agregar {
   }
   
   @Test
-  public void Actualizar () throws Exception {
+  public void actualizar () throws Exception {
 	  driver.get("https://mern-crud-mpfr.onrender.com/");
 	    driver.findElement(By.xpath("//div[@id='root']/div/div[2]/table/tbody/tr/td[5]/button")).click();
 	    Thread.sleep(1000); // Wait for 4 seconds
