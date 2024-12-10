@@ -3,9 +3,13 @@
 
 	package com.fca.calidad.integracion;
 //
+	import java.io.File;
 	import java.io.FileInputStream;
+	import org.dbunit.Assertion;
 	import org.dbunit.DBTestCase;
 	import org.dbunit.PropertiesBasedJdbcDatabaseTester;
+	import org.dbunit.database.DatabaseConfig;
+	import org.dbunit.database.IDatabaseConnection;
 	import org.dbunit.dataset.IDataSet;
 	import org.dbunit.dataset.ITable;
 	import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
@@ -14,6 +18,7 @@
 	import org.junit.jupiter.api.Test;
 
 	import com.fca.calidad.dao.DAOUserSQLite;
+	import com.fca.calidad.model.User.User;
 	import com.fca.calidad.servicio.UserService;
 
 
@@ -36,14 +41,12 @@
 			userService =new UserService(dao);
 			
 			//inicializar la base
-			IDatabaseConnection connection;
+			org.dbunit.database.IDatabaseConnection connection;
 			try {
-				connection = (IDatabaseConnection) getConnection();
-				
-				DatabaseOperation.CLEAN_INSERT.execute((org.dbunit.database.IDatabaseConnection) connection, getDataSet());
-				IDataSet databaseDataSet =((org.dbunit.database.IDatabaseConnection) connection).createDataSet();
+				connection = getConnection();
+				DatabaseOperation.CLEAN_INSERT.execute(connection, getDataSet());
+				IDataSet databaseDataSet =connection.createDataSet();
 				ITable actualTable = databaseDataSet.getTable("users");
-				
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				fail("fallo");
@@ -62,10 +65,13 @@
 				//Assertion
 				int resultadoEsperado = 1;
 				
-				IDatabaseConnection connection;
+				org.dbunit.database.IDatabaseConnection connection;
+				
+				
+				
 				try {
-					connection = (IDatabaseConnection) getConnection();
-					IDataSet databaseDataSet =((org.dbunit.database.IDatabaseConnection) connection).createDataSet();
+					connection = getConnection();
+					IDataSet databaseDataSet =connection.createDataSet();
 					ITable tablaReal = databaseDataSet.getTable("users");
 					tablaReal = databaseDataSet.getTable("users");
 					String nombreReal = (String) tablaReal.getValue(0, "name");
@@ -80,7 +86,9 @@
 					String passwordEsperado = "password";
 					assertEquals(passwordReal, passwordEsperado);
 					
-					
+					/*String idReal = (String) tablaReal.getValue(0, "id");
+					String idEsperado = "id";
+					assertEquals(idReal, idEsperado);*/
 					
 					int resultadoAcutual = tablaReal.getRowCount();
 					assertEquals(resultadoEsperado, resultadoAcutual );

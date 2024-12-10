@@ -1,6 +1,6 @@
 package com.fca.calidad.unitaria;
 
-public class calculadora{
+public class Calculadora{
     double resultado;
     
   public  double divide(double operador1, double operador2) {

@@ -22,8 +22,10 @@ import static org.hamcrest.Matchers.*;
 import com.fca.calidad.dao.IDAOUser;
 import com.fca.calidad.model.User.User;
 import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class UserServiceTest {
 	
@@ -40,93 +42,57 @@ class UserServiceTest {
 		dao= mock(IDAOUser.class);	
 		servicio=new UserService(dao);
 		db=new HashMap<Integer,User>();
-		
+		User user = new User("user", "existinguser@example.com", "user");
+	    db.put(1, user);
 	}
 
 	@Test
-	void updateTest() {
-		User usuarioViejo=new User ("nombre1","email","password");
-		usuarioViejo.setId(1);
-		db.put(usuarioViejo.getId(), usuarioViejo);
-		
-		User usuarioNuevo=new User ("NuevoNombre","email","nuevoPassword");
-		usuarioNuevo.setId(1);
-		
-		when(dao.findById(1)).thenReturn(usuarioViejo);
-		
-		when(dao.updateUser(any(User.class))).thenAnswer(new Answer<User>() {
-			
-			 public User answer(InvocationOnMock invocation)throws Throwable{
-				 
-				 User arg=(User) invocation.getArguments() [0];
-				 
-				 return db.get(arg.getId());
-				
+	void guardarUsuarioTest() {
+		  User user = new User("user", "existinguser@example.com", "user");
+		    db.put(1, user);
+		String nombre = "newUser";
+	    String email = "newuser@example.com";
+	    String password = "securePass"; 
+
+
+	    when(servicio.findUserByEmail(email)).thenReturn(null);
+	    when(dao.save(any(User.class))).thenAnswer(new Answer<Integer>() {
+	        public Integer answer(InvocationOnMock invocation) throws Throwable {
+	            User user = (User) invocation.getArguments()[0];
+	            int newId = db.size() + 1;
+	            user.setId(newId); 
+	            db.put(newId, user);
+	            return newId; 
 			 } 
 			 
 		});
 		
 		
-		User result = servicio.updateUser(usuarioNuevo);
-		
-		assertThat("nuevoPassword" , is(result.getPassword()));
-		assertThat("NuevoNombre", is(result.getName()));
-	}
-	
-	public User CreateUser(String name, String email, String password) {
-		User user= null;
-		
-		if (password.length()>=8 && password.length()<=16) {
-			user=dao.findUserByEmail(email);
-			if (user==null) {
-				user=new User(name,email,password);
-				int id =dao.save(user);
-				user.setId(id);
-			}
-			
-		}
-		return user;
-	}
+	    User result = servicio.createUser(nombre, email, password);
 
-	public List<User>findAllUsers(){
-		List<User>users=new ArrayList<User>();
-		users=dao.findAll();
-		return users;
+
+	    assertNotNull(result); 
+	    assertEquals(nombre, result.getName());
+	    assertEquals(email, result.getEmail()); 
+	    assertEquals(password, result.getPassword()); 
+	    System.out.println("Usuario guardado: " + db);
 	}
 	
-	
-	public User findUserByEmail(String email) {
-		return dao.findUserByEmail(email);
-		
-	}
-	
-	public User findUserById(int id) {
-		return dao.findById(id);
-	}
 	
 	
 	@Test
-	void GuardarUserTest() {
-		
-	    int sizeBefore = db.size();
-	    System.out.println("sizeBefore = " + sizeBefore);
-	    when(dao.findUserByEmail("existinguser@example.com")).thenReturn(db.get(1));
-	    when(dao.save(any(User.class))).thenAnswer(new Answer<Integer>() {
-	        public Integer answer(InvocationOnMock invocation) throws Throwable {
-	            User arg = (User) invocation.getArguments()[0];
-	            if (db.values().stream().anyMatch(user -> user.getEmail().equals(arg.getEmail()))) {
-	                System.out.println("El usuario ya existe y no se guarda nuevamente.");
-	            } else {
-	            	
-	                db.put(db.size() + 1, arg);
-	                System.out.println("Usuario guardado: " + arg.getEmail());
-	            }
- 
-	            return db.size();
-	        }
-	    });
-	   
-}
+	void findUserByEmailTest() {
+
+	    String email = "test@example.com";
+	    User expectedUser = new User("Test User", email, "testPassword");
+	    expectedUser.setId(1);
+	    when(dao.findUserByEmail(email)).thenReturn(expectedUser);
+	    User result = servicio.findUserByEmail(email);
+	    assertEquals(email, result.getEmail());
+	    assertEquals("Test User", result.getName());
+	  }
+
+	
 		@Test
 		void actualizarDataTest() {
 			User oldUser = new User("oldUser", "oldEmail", "oldPassword");
