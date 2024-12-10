@@ -12,7 +12,8 @@
 	import org.dbunit.database.IDatabaseConnection;
 	import org.dbunit.dataset.IDataSet;
 	import org.dbunit.dataset.ITable;
-	import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
+import org.dbunit.dataset.filter.DefaultColumnFilter;
+import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 	import org.dbunit.operation.DatabaseOperation;
 	import org.junit.jupiter.api.BeforeEach;
 	import org.junit.jupiter.api.Test;
@@ -24,6 +25,7 @@
 
 
 	class UserServiceTest extends DBTestCase {
+		private static final String String = null;
 		private DAOUserSQLite dao;
 		private UserService userService;
 
@@ -96,6 +98,65 @@
 				
 			
 		}
+			
+			
+			@Test
+			void createUser2Test() {
+				User usuario = userService.createUser("nombre", "email", "password");
+				
+				IDatabaseConnection connection;
+				try {
+					connection = getConnection();
+					IDataSet databaseDataSet = connection.createDataSet();
+					ITable tablaReal = databaseDataSet.getTable("users");
+					String nombreReal = (String) tablaReal.getValue(0, "name");
+					String nombreEsperado = "nombre";
+					System.out.println("Real =" + nombreReal);
+					assertEquals(nombreReal, nombreEsperado);
+					System.out.println("E=" + (String) tablaReal.getValue(0, "email"));
+					System.out.println("P=" + (String) tablaReal.getValue(0, "password"));
+					assertEquals((String), tablaReal.getValue(0, "email"),"email");
+					assertEquals((String), tablaReal.getValue(0, "password"),"password");
+				}catch (Exception e) {	
+					e.printStackTrace();
+					fail("Fallo");
+				}
+			}
+			
+			
+				@Test
+				void createUser3Test() {
+					User usuario = userService.createUser("nombre2", "email2", "password2");
+					IDatabaseConnection connection;
+					try {
+						connection = getConnection();
+						IDataSet databaseDataSet = connection.createDataSet();
+						ITable tablaReal = databaseDataSet.getTable("users");
+						IDataSet exceptedDataSet = new FlatXmlDataSetBuilder().build(new FileInputStream("C:\\Users\\beatr\\git\\BettySastreCalidad2024\\src\\resources\\createUser.xml"));
+						ITable exceptedTable = exceptedDataSet.getTable("users");
+						
+						ITable filteredTable = DefaultColumnFilter.includedColumnsTable(tablaReal, 
+								exceptedTable.getTableMetaData().getColumns());
+						
+						Assertion.assertEquals(filteredTable, exceptedTable);
+					}catch (Exception e) {
+						
+						e.printStackTrace();
+						fail("Fallo");
+					}
+				
+					
+				}
+				
+					
+					
+					
+					
+					
+					
+							
+			
+		}
 
-	}
+	
 
