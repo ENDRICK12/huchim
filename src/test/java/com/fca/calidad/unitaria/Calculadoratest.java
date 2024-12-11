@@ -1,6 +1,6 @@
 package com.fca.calidad.unitaria;
-import static org.hamcrest.MatcherAssert.assertThat; 
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
