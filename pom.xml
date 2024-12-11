@@ -87,6 +87,12 @@
     <version>5.7.0</version> <!-- Actualiza a la última versión estable -->
     <scope>test</scope>
 </dependency>
+<dependency>
+    <groupId>org.junit.jupiter</groupId>
+    <artifactId>junit-jupiter</artifactId>
+    <version>5.8.2</version> <!-- Usa la última versión disponible -->
+    <scope>test</scope>
+</dependency>
   </dependencies>
   
   
